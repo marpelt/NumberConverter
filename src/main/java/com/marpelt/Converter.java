@@ -11,6 +11,7 @@ public class Converter {
         boolean correctInput = false;
 
         try {
+
             if (from.contains("Binär")) {
 
                 for (int i = 0; i < input.length(); i++) {
