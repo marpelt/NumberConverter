@@ -4,28 +4,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.util.List;
+import java.util.Objects;
 
 public class Window extends JFrame {
-
-    String[] selectionPossibilities = {"-", "Binär", "Dezimal", "Hexadezimal", "ASCII"};
-    private final JLabel resultContent;
 
     public Window() {
         super("Zahlensystem Konverter");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(5, 2));
 
-        String[] selection1 = selectionPossibilities;
-        JComboBox<String> selectionBox1 = new JComboBox<>(selection1);
+        String[] selectionPossibilities = {"-", "Binary", "Decimal", "Hexadecimal", "Ascii"};
 
-        String[] selection2 = selectionPossibilities;
-        JComboBox<String> selectionBox2 = new JComboBox<>(selection2);
+        JComboBox<String> selectionBox1 = new JComboBox<>(selectionPossibilities);
+        JComboBox<String> selectionBox2 = new JComboBox<>(selectionPossibilities);
 
         JTextArea textField = new JTextArea();
-        resultContent = new JLabel();
+        JLabel resultContent = new JLabel();
 
         JButton button = readInput(selectionBox1, selectionBox2, textField, resultContent);
-
 
         add(new JLabel(" Von"));
         add(selectionBox1);
@@ -33,7 +30,7 @@ public class Window extends JFrame {
         add(selectionBox2);
         add(new JLabel(" Eingabe:"));
         add(textField);
-        add(new JLabel(" Ausgabe:"));
+        add(new JLabel(" Ausgabe (Zwischenablage):"));
         add(resultContent);
         add(new JLabel());
         add(button);
@@ -53,28 +50,19 @@ public class Window extends JFrame {
 
         button.addActionListener(e -> {
 
-            String selectedOption1 = (String) selectionBox1.getSelectedItem();
+            Converter.convertToBinary((String) Objects.requireNonNull(selectionBox1.getSelectedItem()), textField.getText());
+            resultText.setText(Converter.convertToResult((String) Objects.requireNonNull(selectionBox2).getSelectedItem()));
+            resultText.setText(Converter.setErrorMessage());
 
-            String selectedOption2 = (String) selectionBox2.getSelectedItem();
+            //TODO: Set color for error/correct progress
 
-            String inputText = textField.getText();
-
-            assert selectedOption1 != null;
-            Converter.convert(selectedOption1, selectedOption2, inputText);
-            resultText.setText(Converter.response());
-
-            if (Converter.response().contains("Error") || Converter.response().contains("java.lang")) {
-                resultText.setForeground(Color.red);
-            } else {
-                resultText.setForeground(Color.green);
-            }
-
-            StringSelection stringSelection = new StringSelection(Converter.response());
+            StringSelection stringSelection = new StringSelection(Converter.convertToResult((String) Objects.requireNonNull(selectionBox2).getSelectedItem()));
             Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
             clipboard.setContents(stringSelection, null);
 
         });
 
         return button;
+
     }
 }
