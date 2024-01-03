@@ -11,7 +11,7 @@ public class Window extends JFrame {
     private final JLabel resultContent;
 
     public Window() {
-        super("Zahlsystem Konverter");
+        super("Zahlensystem Konverter");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(5, 2));
 
