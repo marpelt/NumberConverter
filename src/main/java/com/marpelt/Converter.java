@@ -176,8 +176,11 @@ public class Converter {
                         correctInput = true;
                     }
                 }
+                if (string.isEmpty()) {
+                    correctInput = false;
+                    error = "Input value is empty";
+                }
             }
-
             if (!correctInput) {
                 binaryContent.clear();
             }
