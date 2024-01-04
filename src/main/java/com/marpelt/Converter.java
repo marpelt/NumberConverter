@@ -1,8 +1,5 @@
 package com.marpelt;
 
-import com.sun.org.apache.xerces.internal.xs.StringList;
-import com.sun.xml.internal.bind.v2.TODO;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,7 +18,7 @@ public class Converter {
 
         try {
 
-            if (from.contains("Binär")) {
+            if (from.contains("Binary")) {
 
                 for (int i = 0; i < input.length(); i++) {
                     char character = input.charAt(i);
@@ -38,7 +35,7 @@ public class Converter {
                     results.add("Error");
                 }
 
-            } else if (from.contains("Dezimal")) {
+            } else if (from.contains("Decimal")) {
 
                 for (int i = 0; i < input.length(); i++) {
                     char character = input.charAt(i);
@@ -55,7 +52,7 @@ public class Converter {
                     results.add("Error");
                 }
 
-            } else if (from.contains("Hexadezimal")) {
+            } else if (from.contains("Hexadecimal")) {
 
                 for (int i = 0; i < input.length(); i++) {
                     char character = input.charAt(i);
@@ -67,7 +64,7 @@ public class Converter {
                 }
 
                 if (correctInput) {
-                    convert("Dezimal", "Binär", String.valueOf(Integer.parseInt(input, 16)));
+                    convert("Decimal", "Binary", String.valueOf(Integer.parseInt(input, 16)));
                 } else {
                     results.add("Error");
                 }
@@ -76,7 +73,7 @@ public class Converter {
 
                 for (int i = 0; i < input.length(); i++) {
                     char character = input.charAt(i);
-                    if (!(character >= 0 && character <= 255)) {
+                    if (!(character > 0 && character <= 255)) {
                         correctInput = false;
                         break;
                     }
@@ -103,7 +100,7 @@ public class Converter {
 
             }
 
-            if (to.contains("Binär")) {
+            if (to.contains("Binary")) {
 
                 if (!results.get(results.size() - 1).contains("Error")) {
                     converted.add(results.get(results.size() - 1));
@@ -112,7 +109,7 @@ public class Converter {
                     }
                 }
 
-            } else if (to.contains("Dezimal")) {
+            } else if (to.contains("Decimal")) {
 
                 if (!results.get(results.size() - 1).contains("Error")) {
                     converted.add(String.valueOf(Integer.parseInt(results.get(results.size() - 1), 2)));
@@ -121,7 +118,7 @@ public class Converter {
                     }
                 }
 
-            } else if (to.contains("Hexadezimal")) {
+            } else if (to.contains("Hexadecimal")) {
 
                 if (!results.get(results.size() - 1).contains("Error")) {
                     converted.add(new BigInteger(results.get(results.size() - 1), 2).toString(16));
@@ -152,8 +149,8 @@ public class Converter {
     }
 
     public static List<String> response() {
-        System.out.println("Nach Binär: " + results);
-        System.out.println("Fertig: " + converted);
+        System.out.println("After Binary: " + results);
+        System.out.println("Finished: " + converted);
         return converted;
     }
 
@@ -208,7 +205,7 @@ public class Converter {
                 }
                 if (string.isEmpty()) {
                     correctInput = false;
-                    error = "Inputvalue is empty";
+                    error = "Input value is empty";
                 }
             }
 
@@ -246,7 +243,7 @@ public class Converter {
                 }
                 if (string.isEmpty()) {
                     correctInput = false;
-                    error = "Inputvalue is empty";
+                    error = "Input value is empty";
                 }
             }
 
@@ -284,7 +281,7 @@ public class Converter {
                 }
                 if (string.isEmpty()) {
                     correctInput = false;
-                    error = "Inputvalue is empty";
+                    error = "Input value is empty";
                 }
             }
 
@@ -293,7 +290,7 @@ public class Converter {
                     char[] chars = string.toCharArray();
                     StringBuilder hex = new StringBuilder();
                     for (char aChar : chars) {
-                        hex.append(Integer.toHexString((int) aChar));
+                        hex.append(Integer.toHexString(aChar));
                     }
                     hexadecimalContent.append(hex).append(" ");
                 }
