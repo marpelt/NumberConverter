@@ -50,8 +50,11 @@ public class Window extends JFrame {
         button.addActionListener(e -> {
 
             Converter.convertToBinary((String) Objects.requireNonNull(selectionBox1.getSelectedItem()), textField.getText());
-            resultText.setText(Converter.convertToResult((String) Objects.requireNonNull(selectionBox2).getSelectedItem()));
-            resultText.setText(Converter.setErrorMessage());
+            resultText.setText(Converter.convertToResult((String) Objects.requireNonNull(Objects.requireNonNull(selectionBox2).getSelectedItem())));
+            /*if (Converter.setErrorMessage(textField.getText()).isEmpty()) {
+                resultText.setText(Converter.setErrorMessage(textField.getText()));
+            }*/
+            resultText.setForeground(new Color(0, 255, 0));
 
             //TODO: Set color for error/correct progress
 

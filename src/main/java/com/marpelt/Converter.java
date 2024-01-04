@@ -3,160 +3,9 @@ package com.marpelt;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Converter {
-
-    private static List<String> results;
-    private static List<String> converted;
-
-    public static void convert(String from, String to, String input) {
-
-        results = new ArrayList<>();
-        converted = new ArrayList<>();
-        boolean correctInput = false;
-
-        try {
-
-            if (from.contains("Binary")) {
-
-                for (int i = 0; i < input.length(); i++) {
-                    char character = input.charAt(i);
-                    if (character != '0' && character != '1') {
-                        correctInput = false;
-                        break;
-                    }
-                    correctInput = true;
-                }
-
-                if (correctInput) {
-                    results.add(input);
-                } else {
-                    results.add("Error");
-                }
-
-            } else if (from.contains("Decimal")) {
-
-                for (int i = 0; i < input.length(); i++) {
-                    char character = input.charAt(i);
-                    if (!Character.isDigit(character)) {
-                        correctInput = false;
-                        break;
-                    }
-                    correctInput = true;
-                }
-
-                if (correctInput) {
-                    results.add(Integer.toBinaryString(Integer.parseInt(input)));
-                } else {
-                    results.add("Error");
-                }
-
-            } else if (from.contains("Hexadecimal")) {
-
-                for (int i = 0; i < input.length(); i++) {
-                    char character = input.charAt(i);
-                    if (!(Character.isDigit(character) || (character >= 'A' && character <= 'F') || (character >= 'a' && character <= 'f'))) {
-                        correctInput = false;
-                        break;
-                    }
-                    correctInput = true;
-                }
-
-                if (correctInput) {
-                    convert("Decimal", "Binary", String.valueOf(Integer.parseInt(input, 16)));
-                } else {
-                    results.add("Error");
-                }
-
-            } else if (from.contains("ASCII")) {
-
-                for (int i = 0; i < input.length(); i++) {
-                    char character = input.charAt(i);
-                    if (!(character > 0 && character <= 255)) {
-                        correctInput = false;
-                        break;
-                    }
-                    correctInput = true;
-                }
-
-                if (correctInput) {
-
-                    byte[] bytes = input.getBytes();
-                    StringBuilder binary = new StringBuilder();
-                    for (byte b : bytes) {
-                        int val = b;
-                        for (int i = 0; i < 8; i++) {
-                            binary.append((val & 128) == 0 ? 0 : 1);
-                            val <<= 1;
-                        }
-                    }
-
-                    results.add(String.valueOf(binary));
-
-                } else {
-                    results.add("Error: No Setting selected");
-                }
-
-            }
-
-            if (to.contains("Binary")) {
-
-                if (!results.get(results.size() - 1).contains("Error")) {
-                    converted.add(results.get(results.size() - 1));
-                    if (converted.size() == 2) {
-                        converted.remove(0);
-                    }
-                }
-
-            } else if (to.contains("Decimal")) {
-
-                if (!results.get(results.size() - 1).contains("Error")) {
-                    converted.add(String.valueOf(Integer.parseInt(results.get(results.size() - 1), 2)));
-                    if (converted.size() == 2) {
-                        converted.remove(0);
-                    }
-                }
-
-            } else if (to.contains("Hexadecimal")) {
-
-                if (!results.get(results.size() - 1).contains("Error")) {
-                    converted.add(new BigInteger(results.get(results.size() - 1), 2).toString(16));
-                    if (converted.size() == 2) {
-                        converted.remove(0);
-                    }
-                }
-
-            } else if (to.contains("ASCII")) {
-
-                if (Integer.parseInt(results.get(results.size() - 1), 2) >= 33 && Integer.parseInt(results.get(results.size() - 1), 2) <= 255) {
-                    if (!results.get(results.size() - 1).contains("Error")) {
-                        converted.add(String.valueOf((char) Integer.parseInt(results.get(results.size() - 1), 2)));
-                    }
-                } else {
-                    converted.add("Error: ASCII < 33 && > 255");
-                }
-
-            } else {
-
-                converted.add("Error: No Setting selected");
-
-            }
-
-        } catch (NumberFormatException e) {
-            results.add(e.toString());
-        }
-    }
-
-    public static List<String> response() {
-        System.out.println("After Binary: " + results);
-        System.out.println("Finished: " + converted);
-        return converted;
-    }
-
-
     private static ArrayList<String> binaryContent;
-    private static ArrayList<String> resultContent;
     private static String error;
     public static void convertToBinary(String from, String input) {
 
@@ -175,10 +24,6 @@ public class Converter {
                     } else {
                         correctInput = true;
                     }
-                }
-                if (string.isEmpty()) {
-                    correctInput = false;
-                    error = "Input value is empty";
                 }
             }
             if (!correctInput) {
@@ -205,10 +50,6 @@ public class Converter {
                         correctInput = false;
                         break;
                     }
-                }
-                if (string.isEmpty()) {
-                    correctInput = false;
-                    error = "Input value is empty";
                 }
             }
 
@@ -243,10 +84,6 @@ public class Converter {
                         correctInput = false;
                         break;
                     }
-                }
-                if (string.isEmpty()) {
-                    correctInput = false;
-                    error = "Input value is empty";
                 }
             }
 
@@ -304,18 +141,50 @@ public class Converter {
             }
         }
 
-        if (from.contains("-")) {
-            error = "Missing selection";
-        }
-
     }
 
     public static String convertToResult(String to) {
         //TODO: Convert the binary numbers to the result.
-        return "input";
+
+        StringBuilder result = new StringBuilder();
+        ArrayList<String> resultContent = new ArrayList<>();
+
+        if (to.contains("Binary")) {
+            resultContent = binaryContent;
+        }
+
+        if (to.contains("Decimal")) {
+            for (String string : binaryContent) {
+                resultContent.add(String.valueOf(Integer.parseInt(string, 2)));
+            }
+        }
+
+        if (to.contains("Hexadecimal")) {
+            for (String string : binaryContent) {
+                resultContent.add(new BigInteger(string, 2).toString(16));
+            }
+        }
+
+        if (to.contains("Ascii")) {
+            for (String string : binaryContent) {
+                resultContent.add(String.valueOf((char) Integer.parseInt(string, 2)));
+            }
+        }
+
+        if (!(resultContent.isEmpty())) {
+
+            for (String string : resultContent) {
+                result.append(string).append(" ");
+            }
+            result.deleteCharAt(result.length() - 1);
+            resultContent.clear();
+        }
+
+        return result.toString();
     }
 
-    public static String setErrorMessage() {
+    public static String setErrorMessage(String input) {
+        //TODO: Error Message
         return error;
     }
 }
