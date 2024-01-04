@@ -4,13 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.util.List;
 import java.util.Objects;
 
 public class Window extends JFrame {
 
     public Window() {
-        super("Zahlensystem Konverter");
+        super("Number system Converter");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(5, 2));
 
@@ -24,13 +23,13 @@ public class Window extends JFrame {
 
         JButton button = readInput(selectionBox1, selectionBox2, textField, resultContent);
 
-        add(new JLabel(" Von"));
+        add(new JLabel(" Start"));
         add(selectionBox1);
-        add(new JLabel(" Nach"));
+        add(new JLabel(" Result"));
         add(selectionBox2);
-        add(new JLabel(" Eingabe:"));
+        add(new JLabel(" Input:"));
         add(textField);
-        add(new JLabel(" Ausgabe (Zwischenablage):"));
+        add(new JLabel(" Converted (Clipboard):"));
         add(resultContent);
         add(new JLabel());
         add(button);
@@ -46,7 +45,7 @@ public class Window extends JFrame {
 
     private static JButton readInput(JComboBox<String> selectionBox1, JComboBox<String> selectionBox2, JTextArea textField, JLabel resultText) {
 
-        JButton button = new JButton("Konvertieren");
+        JButton button = new JButton("Convert");
 
         button.addActionListener(e -> {
 
